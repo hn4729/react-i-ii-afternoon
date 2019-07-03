@@ -10,6 +10,11 @@ class Buttons extends Component {
         <button className="nav-btn" onClick={() => this.props.navigateDir(-1)}>
           {`< Previous`}
         </button>
+        <div className="inner-btn">
+          <button className="modify-btn">Edit</button>
+          <button className="modify-btn">Delete</button>
+          <button className="modify-btn">New</button>
+        </div>
         <button className="nav-btn" onClick={() => this.props.navigateDir(1)}>
           {`Next >`}
         </button>
