@@ -8,27 +8,67 @@ class Directory extends Component {
     super();
     this.state = {
       peopleArr: data,
-      person: data[0],
-      index: 0
+      count: 0
     };
-    this.navigateDir = this.navigateDir.bind(this);
+    this.increment = this.increment.bind(this);
+    this.decrement = this.decrement.bind(this);
+    this.delete = this.delete.bind(this);
   }
-  navigateDir(value) {
-    if (
-      (this.state.index === 0 && value > 0) ||
-      (this.state.index > 0 &&
-        this.state.index < this.state.peopleArr.length - 1) ||
-      (this.state.index === this.state.peopleArr.length - 1 && value < 0)
-    ) {
-      let newIndex = this.state.index + value;
-      this.setState({ person: data[newIndex], index: newIndex });
+
+  increment() {
+    let newCount;
+    if (this.state.count === this.state.peopleArr.length - 1) {
+      newCount = 0;
+    } else {
+      newCount = this.state.count + 1;
     }
+    this.setState({ count: newCount });
   }
+
+  decrement() {
+    let newCount;
+    if (this.state.count === 0) {
+      newCount = this.state.peopleArr.length - 1;
+    } else {
+      newCount = this.state.count - 1;
+    }
+    this.setState({
+      count: newCount
+    });
+  }
+
+  delete() {
+    let newPeopleArr = this.state.peopleArr;
+    newPeopleArr.splice(this.state.count, 1);
+    for (let i = this.state.count; i < newPeopleArr.length; i++) {
+      newPeopleArr[i].id -= 1;
+    }
+    this.setState({ peopleArr: newPeopleArr });
+  }
+
   render() {
+    const viewPeople = this.state.peopleArr.map(person => {
+      return (
+        <Card
+          peopleArr={this.state.peopleArr}
+          id={person.id}
+          name={person.name}
+          city={person.city}
+          country={person.country}
+          employer={person.employer}
+          title={person.title}
+          favoriteMovies={person.favoriteMovies}
+        />
+      );
+    });
     return (
       <div className="directory">
-        <Card peopleArr={this.state.peopleArr} person={this.state.person} />
-        <Buttons navigateDir={this.navigateDir} />
+        {viewPeople[this.state.count]}
+        <Buttons
+          increment={this.increment}
+          decrement={this.decrement}
+          delete={this.delete}
+        />
       </div>
     );
   }
