@@ -2,17 +2,29 @@ import React, { Component } from "react";
 import data from "../data/data";
 import Card from "./Card";
 import Buttons from "./Buttons";
+import Form from "./Form";
 
 class Directory extends Component {
   constructor() {
     super();
     this.state = {
       peopleArr: data,
-      count: 0
+      count: 0,
+      displayStyle: "none",
+      editStatus: false,
+      newPersonStatus: false
     };
     this.increment = this.increment.bind(this);
     this.decrement = this.decrement.bind(this);
     this.delete = this.delete.bind(this);
+    this.editShowForm = this.editShowForm.bind(this);
+    this.handleCity = this.handleCity.bind(this);
+    this.handleFirstName = this.handleFirstName.bind(this);
+    this.handleLastName = this.handleLastName.bind(this);
+    this.handleCountry = this.handleCountry.bind(this);
+    this.handleEmployer = this.handleEmployer.bind(this);
+    this.handleTitle = this.handleTitle.bind(this);
+    this.handleFavoriteMovie = this.handleFavoriteMovie.bind(this);
   }
 
   increment() {
@@ -46,6 +58,56 @@ class Directory extends Component {
     this.setState({ peopleArr: newPeopleArr });
   }
 
+  editShowForm() {
+    if (this.state.displayStyle === "none") {
+      this.setState({ displayStyle: null, editStatus: true });
+    } else if (this.state.editStatus === true) {
+      this.setState({ displayStyle: "none", editStatus: false });
+    }
+  }
+
+  handleFirstName(value) {
+    let modArr = this.state.peopleArr;
+    modArr[this.state.count].name.first = value;
+    this.setState({ personArr: modArr });
+  }
+
+  handleLastName(value) {
+    let modArr = this.state.peopleArr;
+    modArr[this.state.count].name.last = value;
+    this.setState({ personArr: modArr });
+  }
+
+  handleCity(value) {
+    let modArr = this.state.peopleArr;
+    modArr[this.state.count].city = value;
+    this.setState({ personArr: modArr });
+  }
+
+  handleCountry(value) {
+    let modArr = this.state.peopleArr;
+    modArr[this.state.count].country = value;
+    this.setState({ personArr: modArr });
+  }
+
+  handleEmployer(value) {
+    let modArr = this.state.peopleArr;
+    modArr[this.state.count].employer = value;
+    this.setState({ personArr: modArr });
+  }
+
+  handleTitle(value) {
+    let modArr = this.state.peopleArr;
+    modArr[this.state.count].title = value;
+    this.setState({ personArr: modArr });
+  }
+
+  handleFavoriteMovie(value, index) {
+    let modArr = this.state.peopleArr;
+    modArr[this.state.count].favoriteMovies[index] = value;
+    this.setState({ personArr: modArr });
+  }
+
   render() {
     const viewPeople = this.state.peopleArr.map(person => {
       return (
@@ -68,6 +130,18 @@ class Directory extends Component {
           increment={this.increment}
           decrement={this.decrement}
           delete={this.delete}
+          editShowForm={this.editShowForm}
+        />
+        <Form
+          displayStyle={this.state.displayStyle}
+          person={this.state.peopleArr[this.state.count]}
+          handleFirstName={this.handleFirstName}
+          handleLastName={this.handleLastName}
+          handleCity={this.handleCity}
+          handleCountry={this.handleCountry}
+          handleEmployer={this.handleEmployer}
+          handleTitle={this.handleTitle}
+          handleFavoriteMovie={this.handleFavoriteMovie}
         />
       </div>
     );

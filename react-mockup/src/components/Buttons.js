@@ -8,7 +8,12 @@ class Buttons extends Component {
           {`< Previous`}
         </button>
         <div className="inner-btn">
-          <button className="modify-btn">Edit</button>
+          <button
+            className="modify-btn"
+            onClick={() => this.props.editShowForm()}
+          >
+            Edit
+          </button>
           <button className="modify-btn" onClick={() => this.props.delete()}>
             Delete
           </button>
